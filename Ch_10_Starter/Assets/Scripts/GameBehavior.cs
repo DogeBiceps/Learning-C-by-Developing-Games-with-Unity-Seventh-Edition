@@ -4,9 +4,18 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using CustomExtensions;
 
-public class GameBehavior : MonoBehaviour
+public class GameBehavior : MonoBehaviour, IManager
 {
+
+    private string _state;
+    public string State
+    {
+        get { return _state; }
+        set { _state = value; }
+    }
+
     public int MaxItems = 4;
 
     public TMP_Text HealthText;
@@ -20,6 +29,13 @@ public class GameBehavior : MonoBehaviour
     {
         ItemText.text += _itemsCollected;
         HealthText.text += _playerHP;
+       Initialize();
+    }
+
+    public void OnServerInitialized()
+    {
+        _state = "Tomas Game Manager Initialized :)";
+        Debug.Log(_state);
     }
 
     private int _itemsCollected = 0;
@@ -69,13 +85,18 @@ public class GameBehavior : MonoBehaviour
 
     public void RestartScene()
     {
-        SceneManager.LoadScene(0);
-        Time.timeScale = 1f;
+        Utilities.RestartLevel(0);
     }
 
     public void UpdateScene(string updatedText)
     {
         ProgressText.text = updatedText;
         Time.timeScale = 0f;
+    }
+    public void Initialize()
+    {
+        _state = "Game Manager initialized..";
+        _state.FancyDebug();
+        Debug.Log(_state);
     }
 }
