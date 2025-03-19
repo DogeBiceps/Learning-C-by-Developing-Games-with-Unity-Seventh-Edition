@@ -127,7 +127,7 @@ namespace CS_Using_HashSet
             {
                 Console.WriteLine(n);
             }
-
+            
             Console.WriteLine();
             Console.WriteLine("_________________________________");
             Console.WriteLine("Data in HashSet before using Except With");

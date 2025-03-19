@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Xml.Serialization;
+using System;
 
+[Serializable]
 public struct Weapon
 {
     public string name;
@@ -13,8 +16,16 @@ public struct Weapon
         this.damage = damage;
     }
 
+
     public void PrintWeaponStats()
     {
         Debug.LogFormat("Weapon: {0} - {1} DMG", this.name, this.damage);
     }
+
+}
+
+[Serializable]
+public class WeaponShop
+{
+    public List<Weapon> inventory;
 }
