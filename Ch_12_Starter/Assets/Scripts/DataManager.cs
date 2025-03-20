@@ -81,11 +81,9 @@ public class DataManager : MonoBehaviour, IManager
         Debug.Log("NewDirectory called");
         if (Directory.Exists(_dataPath))
         {
-            // 2
             Debug.Log("Directory already exists...");
             return;
         }
-        // 3
         Directory.CreateDirectory(_dataPath);
         Debug.Log("New directory created!");
     }
