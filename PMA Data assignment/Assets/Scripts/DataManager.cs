@@ -34,9 +34,8 @@ public class DataManager : MonoBehaviour
     {
         NewDirectory();
         // Could also use WriteToXML, but SerializeXML works fine for this task and is more efficient.
-        SerializeXML();
+        SerializeXML(groupMembers);
         DeserializeXML();
-        SerializeJSON();
     }
 
     public void NewDirectory()
@@ -49,12 +48,23 @@ public class DataManager : MonoBehaviour
         Debug.Log("New directory created");
     }
 
-    public void SerializeXML()
+    // Serializes a given list of members into XML
+    public void SerializeXML(List<Member> groupMembers)
     {
-        var xmlSerializer = new XmlSerializer(typeof(List<Member>));
-        using (FileStream stream = File.Create(_xmlGroupMembers))
+        // Ensure data exists and is not empty
+        if (groupMembers != null && groupMembers.Count > 0)
         {
-            xmlSerializer.Serialize(stream, groupMembers);
+            var xmlSerializer = new XmlSerializer(typeof(List<Member>));
+            using (FileStream stream = File.Create(_xmlGroupMembers))
+            {
+                xmlSerializer.Serialize(stream, groupMembers);
+            }
+
+        }
+        else
+        {
+            Debug.Log("No data to serialize (XML)");
+            return;
         }
     }
 
@@ -66,26 +76,39 @@ public class DataManager : MonoBehaviour
             var xmlSerializer = new XmlSerializer(typeof(List<Member>));
             using (FileStream stream = File.OpenRead(_xmlGroupMembers))
             {
-                // Replace original groupMembers list data with deserialized XML data
-                groupMembers = (List<Member>)xmlSerializer.Deserialize(stream);
+                // Save deserialized list as new var
+                var deserializedMembers = (List<Member>)xmlSerializer.Deserialize(stream);
 
                 // Verify correct xml deserialization by displaying member attributes.
-                foreach (var member in groupMembers)
+                foreach (var member in deserializedMembers)
                 {
-                    Debug.LogFormat("Name: {0} - Date of birth: {1} - Favorite color: {2}", member.name, member.dateOfBirth, member.favColor);
+                    Debug.LogFormat("Name: {0} - Date of birth: {1} - Favorite color: {2} - XML works", member.name, member.dateOfBirth, member.favColor);
                 }
+                    // Take the new var and serialize it to .json
+                    SerializeJSON(deserializedMembers);
             }
         }
     }
 
-    public void SerializeJSON()
+
+    //Serializes a given list of members to JSON
+    public void SerializeJSON(List<Member> membersToSerialize)
     {
-        GroupMembers members = new GroupMembers();
-        members.groupMembers = groupMembers;
-        string jsonString = JsonUtility.ToJson(members, true);
-        using (StreamWriter stream = File.CreateText(_jsonGroupMembers))
+        // Ensure data exists and is not empty before serializing
+        if (membersToSerialize != null && membersToSerialize.Count > 0)
         {
-            stream.WriteLine(jsonString);
+            GroupMembers members = new GroupMembers();
+            members.groupMembers = membersToSerialize;
+            string jsonString = JsonUtility.ToJson(members, true);
+            using (StreamWriter stream = File.CreateText(_jsonGroupMembers))
+            {
+                stream.WriteLine(jsonString);
+            }
+        }
+        else
+        {
+            Debug.Log("No data to serialize (JSON)");
+            return;
         }
     }
 }
