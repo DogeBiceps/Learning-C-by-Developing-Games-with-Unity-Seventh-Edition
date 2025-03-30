@@ -1,0 +1,1 @@
+C:\Unity Projects\Learning-C-by-Developing-Games-with-Unity-Seventh-Edition\Sensor Data\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\Debug\5i4oy2n1\obj\arm64-v8a
