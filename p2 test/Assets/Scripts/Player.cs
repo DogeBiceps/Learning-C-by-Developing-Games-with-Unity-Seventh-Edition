@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -24,15 +25,33 @@ public class Player : MonoBehaviour
     [SerializeField]
     public bool isDead;
 
+    public Tilemap tilemap;
+    public TileBase[] trailTiles;
+    private int tileIndex = 0;
+
+    private Vector3Int lastTilePosition;
+
+
     private void Start()
     {
         isDead = false;
+
+        lastTilePosition = tilemap.WorldToCell(transform.position);
+        PlaceTrail(lastTilePosition);
     }
     private void FixedUpdate()
     {
         rb.linearVelocityX = (horizontalMovement * moveSpeed);
         isGrounded();
         Gravity();
+
+        Vector3Int currentTilePos = tilemap.WorldToCell(transform.position);
+
+        if(currentTilePos != lastTilePosition)
+        {
+            lastTilePosition = currentTilePos;
+            PlaceTrail(currentTilePos);
+        }
     }
     public void Move(InputAction.CallbackContext context)
     {
@@ -93,5 +112,12 @@ public class Player : MonoBehaviour
             {
                 return;
             }
+    }
+
+    void PlaceTrail(Vector3Int position)
+    {
+        TileBase tileToPlace = trailTiles[tileIndex % trailTiles.Length];
+        tilemap.SetTile(position, tileToPlace);
+        tileIndex++;
     }
 }
