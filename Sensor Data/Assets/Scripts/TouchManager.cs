@@ -19,6 +19,9 @@ public class TouchManager : MonoBehaviour
     string _jsonTouchData;
     private List<TouchRecord> touchData = new List<TouchRecord>();
 
+    [SerializeField]
+    private Accelerometer accelerometer;
+
 
 
 
@@ -27,6 +30,8 @@ public class TouchManager : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         touchPressAction = playerInput.actions.FindAction("TouchPress");
         touchPositionAction = playerInput.actions.FindAction("TouchPosition");
+
+        accelerometer = GetComponent<Accelerometer>();
 
         _dataPath = Application.persistentDataPath + "/Sensor_Data/";
 
@@ -85,18 +90,29 @@ public class TouchManager : MonoBehaviour
                 touchRecords = touchData
             };
 
-            string jsonString = JsonUtility.ToJson(container, true);
+            AccelDataContainer accelContainer = new AccelDataContainer
+            {
+                accelRecords = accelerometer.AccelData
+            };
 
-            string filePath = Path.Combine(_dataPath, "touch_data.json");
-            File.WriteAllText(filePath, jsonString);
+            string touchJson = JsonUtility.ToJson(container, true);
+            string accelJson = JsonUtility.ToJson(accelContainer, true);
 
-            Debug.Log($"Touch data serialized to JSON at: {filePath}");
+            string touchPath = Path.Combine(_dataPath, "touch_data.json");
+            string accelPath = Path.Combine(_dataPath, "accel_data.json");
+
+            File.WriteAllText(touchPath, touchJson);
+            File.WriteAllText(accelPath, accelJson);
+
+            Debug.Log($"Touch data saved to: {touchPath}");
+            Debug.Log($"Accel data saved to: {accelPath}");
         }
         else
         {
             Debug.Log("No data to serialize (JSON)");
         }
     }
+
 
     [Serializable]
     public class TouchRecord

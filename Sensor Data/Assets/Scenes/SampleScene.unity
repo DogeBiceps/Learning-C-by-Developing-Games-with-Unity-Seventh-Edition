@@ -370,10 +370,10 @@ RectTransform:
   - {fileID: 310164786}
   m_Father: {fileID: 1772218752}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 99.56488, y: -32.871216}
-  m_SizeDelta: {x: 199.1297, y: 65.7425}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 199.1297, y: 65.74249}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &325021902
 MonoBehaviour:
@@ -890,6 +890,7 @@ GameObject:
   - component: {fileID: 2018196504}
   - component: {fileID: 2018196503}
   - component: {fileID: 2018196502}
+  - component: {fileID: 2018196505}
   m_Layer: 0
   m_Name: TouchManager
   m_TagString: Untagged
@@ -910,6 +911,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 871522960}
+  accelerometer: {fileID: 2018196505}
 --- !u!114 &2018196503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -955,6 +957,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2018196505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018196501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 626794cba35743442abfc09f337b4d10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AccelData: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
